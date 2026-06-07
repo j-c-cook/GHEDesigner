@@ -114,6 +114,8 @@ def calc_g_func_for_multiple_lengths(
     pipe,
     grout,
     soil,
+    tilts=None,
+    orientations=None,
 ):
     r_b_values = dict.fromkeys(h_values, r_b)
     g_lts_values = {}
@@ -136,6 +138,8 @@ def calc_g_func_for_multiple_lengths(
             pipe,
             grout,
             soil,
+            tilts=tilts,
+            orientations=orientations,
         ).tolist()
 
     # Initialize the gFunction object
