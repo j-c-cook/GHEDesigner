@@ -87,6 +87,7 @@ def calculate_g_function(
         epsilon=pipe.roughness,
         fluid_str=fluid.name,
         fluid_concentration_pct=fluid.concentration_percent,
+        fluid_temperature=fluid.temperature,
         pos=pipe.pos,
         r_in=r_inner,
         r_out=r_outer,
