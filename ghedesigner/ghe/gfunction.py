@@ -32,6 +32,8 @@ def calculate_g_function(
     pipe,
     grout,
     soil,
+    tilts=None,
+    orientations=None,
     boundary_condition="MIFT",
 ):
     match bhe_type:
@@ -48,7 +50,14 @@ def calculate_g_function(
 
     # setup options
     # none of these were ever used or even exposed for users to access them. hardcoding them here until needed.
-    solver = "equivalent"
+    # The "equivalent" solver assumes vertical, identical boreholes; tilted fields
+    # require the "similarities" solver, which handles per-borehole tilt/orientation.
+    if tilts is None or orientations is None:
+        solver = "equivalent"
+        tilts = 0.0
+        orientations = 0.0
+    else:
+        solver = "similarities"
     disp = False
     n_segments = 8
     end_length_ratio = 0.02
@@ -83,6 +92,8 @@ def calculate_g_function(
         r_out=r_outer,
         pipe_type_str=PyPipeType[pyg_pipe_type_map[bhe_type.name]].name,
         m_flow_network=m_flow_network,
+        tilt=tilts,
+        orientation=orientations,
     )
 
     g_func_vals = g_func.evaluate_g_function(time_values)
